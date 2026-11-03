@@ -14,7 +14,7 @@ use Tavaan\Engine\Audit\Auditor;
  */
 final class AuditScenarioTest extends TestCase
 {
-    public function t01_record_hash_chain(): void
+    public function test_t01_record_hash_chain(): void
     {
         // Scenario T-01
 $a = new Auditor("secret-key");
@@ -25,7 +25,7 @@ $a = new Auditor("secret-key");
         $this->assertNotEmpty($id1);
         $this->assertNotEmpty($id2);
     }
-    public function t02_tamper_breaks_verify(): void
+    public function test_t02_tamper_breaks_verify(): void
     {
         // Scenario T-02
 $a = new Auditor("k");
@@ -42,7 +42,7 @@ $a = new Auditor("k");
         $prop->setValue($a, $entries);
         $this->assertFalse($a->verify(), "tampered chain should fail verify");
     }
-    public function t03_export_filters(): void
+    public function test_t03_export_filters(): void
     {
         // Scenario T-03
 $a = new Auditor();
@@ -52,7 +52,7 @@ $a = new Auditor();
         $auth = $a->export(fn($e) => ($e["data"]["type"] ?? "") === "auth");
         $this->assertCount(2, $auth);
     }
-    public function t04_prune_old_entries(): void
+    public function test_t04_prune_old_entries(): void
     {
         // Scenario T-04
 $a = new Auditor();
@@ -62,7 +62,7 @@ $a = new Auditor();
         $this->assertSame(0, $deleted, "nothing older than 90 days yet");
         $this->assertCount(2, $a->entries());
     }
-    public function t05_last_hash_tracks_chain(): void
+    public function test_t05_last_hash_tracks_chain(): void
     {
         // Scenario T-05
 $a = new Auditor("secret");
