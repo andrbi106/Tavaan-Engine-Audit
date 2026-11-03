@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tavaan\Engine\Audit\Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Tavaan\Testing\TestCase;
 use Tavaan\Engine\Audit\AuditEvent;
 use Tavaan\Engine\Audit\AuditLog;
 use Tavaan\Engine\Audit\AuditManager;
