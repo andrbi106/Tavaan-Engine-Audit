@@ -2,7 +2,7 @@
   "id": "tavaan.engine.audit",
   "type": "engine",
   "name": "Audit",
-  "title_fa": "ممیزی ضدتقلب",
+  "title_fa": "ممیزی",
   "version": "0.1.0",
   "namespace": "Tavaan\\Engine\\Audit\\",
   "autoload": {
@@ -10,43 +10,11 @@
       "Tavaan\\Engine\\Audit\\": "src/"
     }
   },
-  "providers": [
-    "Tavaan\\Engine\\Audit\\AuditorServiceProvider"
-  ],
-  "requires": {
-    "php": ">=8.2",
-    "engines": [
-      "event",
-      "database",
-      "log",
-      "crypt",
-      "config"
-    ]
-  },
-  "soft_requires": {
-    "engines": [
-      "orm",
-      "auth",
-      "http"
-    ]
-  },
-  "config": {
-    "file": "config/audit.php",
-    "key": "audit"
-  },
-  "tables": [
-    "tvn_audit_logs"
-  ],
-  "commands": [
-    "audit:verify",
-    "audit:export",
-    "audit:prune",
-    "audit:show"
-  ],
-  "facade": {
-    "name": "Audit",
-    "accessor": "audit"
-  },
-  "docs": "docs/03-engines/audit.md",
-  "notes": "M4 — زنجیرهٔ هش HMAC (tamper-evident)، Diff فیلدها، کاربر/IP/trace، Observer خودکار مدل‌ها، exclude_fields."
+  "providers": ["Tavaan\\Engine\\Audit\\AuditServiceProvider"],
+  "requires": {"php": ">=8.2", "engines": ["event", "log", "crypt", "config"]},
+  "config": {"file": "config/audit.php", "key": "audit"},
+  "tables": ["tvn_audit_logs"],
+  "commands": [],
+  "facade": {"name": "Audit", "accessor": "audit"},
+  "docs": "docs/03-engines/audit.md"
 }
