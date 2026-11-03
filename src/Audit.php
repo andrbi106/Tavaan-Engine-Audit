@@ -22,6 +22,7 @@ final class AuditEvent
         public ?string $traceId = null,
         public readonly ?\DateTimeImmutable $createdAt = null,
     ) {
+        $this->lastHash = str_repeat("0", 64);
     }
 
     /**
@@ -68,6 +69,7 @@ final class AuditLog
         public readonly string $hash,
         public readonly \DateTimeImmutable $createdAt,
     ) {
+        $this->lastHash = str_repeat("0", 64);
     }
 }
 
@@ -80,11 +82,12 @@ final class AuditManager
 {
     /** @var list<AuditLog> */
     private array $logs = [];
-    private string $lastHash = \str_repeat('0', 64);
+    private string $lastHash = "";
 
     public function __construct(
         private readonly string $auditKey = '',
     ) {
+        $this->lastHash = str_repeat('0', 64);
     }
 
     public function record(AuditEvent $event): AuditLog
@@ -197,6 +200,7 @@ final class AuditServiceProvider
     public function __construct(
         private readonly array $config = [],
     ) {
+        $this->lastHash = str_repeat("0", 64);
     }
 
     public function register(): void
