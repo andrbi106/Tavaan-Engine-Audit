@@ -9,7 +9,7 @@ use Tavaan\Core\Contracts\Console\CommandInterface;
 /**
  * audit:prune command.
  */
-final class Audit_pruneCommand implements CommandInterface
+final class AuditPruneCommand implements CommandInterface
 {
     public function name(): string
     {

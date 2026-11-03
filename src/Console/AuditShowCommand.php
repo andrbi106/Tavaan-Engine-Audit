@@ -7,18 +7,18 @@ namespace Tavaan\Engine\Audit\Console;
 use Tavaan\Core\Contracts\Console\CommandInterface;
 
 /**
- * audit:verify command.
+ * audit:show command.
  */
-final class Audit_verifyCommand implements CommandInterface
+final class AuditShowCommand implements CommandInterface
 {
     public function name(): string
     {
-        return 'audit:verify';
+        return 'audit:show';
     }
 
     public function description(): string
     {
-        return 'Run audit:verify (TODO: fill description).';
+        return 'Run audit:show (TODO: fill description).';
     }
 
     public function handle(array $args = []): int

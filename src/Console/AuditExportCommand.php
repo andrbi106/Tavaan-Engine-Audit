@@ -9,7 +9,7 @@ use Tavaan\Core\Contracts\Console\CommandInterface;
 /**
  * audit:export command.
  */
-final class Audit_exportCommand implements CommandInterface
+final class AuditExportCommand implements CommandInterface
 {
     public function name(): string
     {
