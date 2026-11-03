@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tavaan\Engine\Audit;
 
-use Tavaan\Core\Contracts\ORM\ObserverInterface;
+use Tavaan\Engine\Database\ORM\Contracts\ObserverInterface;
 use Tavaan\Engine\Database\ORM\Model;
 
 /**
@@ -32,9 +32,9 @@ final class AuditObserver implements ObserverInterface
     ) {
         $this->userIdResolver = $userIdResolver ?? static function (): ?int {
             try {
-                if (\class_exists(\Tavaan\Core\Facade\Facades\Auth::class)
+                if (\class_exists(\Tavaan\Engine\Auth\Facades\Auth::class)
                     && \Tavaan\Core\Facade\Facade::getFacadeApplication()->bound('auth')) {
-                    $id = \Tavaan\Core\Facade\Facades\Auth::id();
+                    $id = \Tavaan\Engine\Auth\Facades\Auth::id();
 
                     return $id === null ? null : (int) $id;
                 }
