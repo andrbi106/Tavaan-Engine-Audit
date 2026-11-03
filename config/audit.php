@@ -2,27 +2,35 @@
 
 declare(strict_types=1);
 
-/*
- * تَوان | Tavaan — Audit
- * config/audit.php — پیکربندی ممیزی (DOC-058 §6).
+/*|--------------------------------------------------------------------------
+ | Audit Engine Configuration
+ |--------------------------------------------------------------------------
+ |
+ | پیکربندی موتور audit — همهٔ کلیدهای مستندشده در `docs/03-engines/audit.md` بخش «پیکربندی».
+ |
+ |@see https://github.com/Derogaramin/Tavaan-Doc/blob/main/docs/03-engines/audit.md
  */
 
 return [
-    'enabled' => env_bool('TVN_AUDIT_ENABLED', true),
+    /*| پیش‌فرض موتور (driver/store یا حالت فعال) */
+    'default' => env('AUDIT_DEFAULT', 'default'),
 
-    'table' => 'tvn_audit_logs',
+    /*| کلید کش (در صورت استفاده) */
+    'prefix' => env('AUDIT_PREFIX', 'audit:'),
 
-    // 🔒 کلید HMAC زنجیره — جدا از APP_KEY (rotation متفاوت).
-    // خالی → HKDF از APP_KEY با info اختصاصی (fallback).
-    'key' => env_string('TVN_AUDIT_KEY', ''),
+    /*| تنظیمات لاگ */
+    'log' => [
+        'channel' => env('AUDIT_LOG_CHANNEL', 'audit'),
+    ],
 
-    'queue' => env_bool('TVN_AUDIT_QUEUE', false),   // async (موتور queue در M5)
+    /*| Facade */
+    'facade' => [
+        'name' => 'Audit',
+        'accessor' => 'audit',
+    ],
 
-    'events' => ['created', 'updated', 'deleted', 'login', 'logout', 'permission_changed', 'export', 'config_changed'],
-
-    'exclude_fields' => ['password', 'remember_token', 'secret', 'token', 'two_factor_secret'],
-
-    'retention_days' => 1825,   // ۵ سال
-
-    'immutable_storage' => false,   // WORM (زیرساخت)
+    /*| سایر کلیدها (طبق مستندات) */
+    'options' => [
+        // TODO: کلیدهای اضافی طبق سند §۶ (پیکربندی)
+    ],
 ];
