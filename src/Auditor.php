@@ -6,23 +6,23 @@ namespace Tavaan\Engine\Audit;
 
 final class Auditor
 {
-    public function record(/* ... */): mixed
+    public function record()
     {
         return null;
     }
-    public function verify(/* ... */): mixed
+    public function verify()
     {
         return null;
     }
-    public function export(/* ... */): mixed
+    public function export()
     {
         return null;
     }
-    public function prune(/* ... */): mixed
+    public function prune()
     {
         return null;
     }
-    public function lastHash(/* ... */): mixed
+    public function lastHash()
     {
         return null;
     }
