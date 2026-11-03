@@ -13,4 +13,65 @@ use Tavaan\Engine\Audit\Auditor;
  * Generated from ROADMAP.md scenarios — real implementations, not placeholders.
  */
 final class AuditScenarioTest extends TestCase
-{'    public function t01_record_hash_chain(): void\n    {\n        // Scenario T-01\n$a = new Auditor("secret-key");\n        $id1 = $a->record(["action" => "login", "user" => "u1"]);\n        $id2 = $a->record(["action" => "logout", "user" => "u1"]);\n        $this->assertCount(2, $a->entries());\n        $this->assertTrue($a->verify(), "hash chain should verify");\n        $this->assertNotEmpty($id1);\n        $this->assertNotEmpty($id2);\n    }\n    public function t02_tamper_breaks_verify(): void\n    {\n        // Scenario T-02\n$a = new Auditor("k");\n        $a->record(["amount" => 100]);\n        $a->record(["amount" => 200]);\n        // Mutate the first entry\'s data\n        $entries = $a->entries();\n        $this->assertCount(2, $entries);\n        // Tamper via reflection\n        $r = new \\ReflectionClass($a);\n        $prop = $r->getProperty("entries");\n        $entries = $prop->getValue($a);\n        $entries[0]["data"]["amount"] = 999;\n        $prop->setValue($a, $entries);\n        $this->assertFalse($a->verify(), "tampered chain should fail verify");\n    }\n    public function t03_export_filters(): void\n    {\n        // Scenario T-03\n$a = new Auditor();\n        $a->record(["type" => "auth", "user" => "u1"]);\n        $a->record(["type" => "data", "user" => "u2"]);\n        $a->record(["type" => "auth", "user" => "u3"]);\n        $auth = $a->export(fn($e) => ($e["data"]["type"] ?? "") === "auth");\n        $this->assertCount(2, $auth);\n    }\n    public function t04_prune_old_entries(): void\n    {\n        // Scenario T-04\n$a = new Auditor();\n        $a->record(["v" => 1]);\n        $a->record(["v" => 2]);\n        $deleted = $a->prune(90);\n        $this->assertSame(0, $deleted, "nothing older than 90 days yet");\n        $this->assertCount(2, $a->entries());\n    }\n    public function t05_last_hash_tracks_chain(): void\n    {\n        // Scenario T-05\n$a = new Auditor("secret");\n        $this->assertSame("", $a->lastHash());\n        $a->record(["x" => 1]);\n        $h1 = $a->lastHash();\n        $this->assertNotEmpty($h1);\n        $a->record(["x" => 2]);\n        $h2 = $a->lastHash();\n        $this->assertNotSame($h1, $h2);\n    }'}
+{
+    public function t01_record_hash_chain(): void
+    {
+        // Scenario T-01
+$a = new Auditor("secret-key");
+        $id1 = $a->record(["action" => "login", "user" => "u1"]);
+        $id2 = $a->record(["action" => "logout", "user" => "u1"]);
+        $this->assertCount(2, $a->entries());
+        $this->assertTrue($a->verify(), "hash chain should verify");
+        $this->assertNotEmpty($id1);
+        $this->assertNotEmpty($id2);
+    }
+    public function t02_tamper_breaks_verify(): void
+    {
+        // Scenario T-02
+$a = new Auditor("k");
+        $a->record(["amount" => 100]);
+        $a->record(["amount" => 200]);
+        // Mutate the first entry's data
+        $entries = $a->entries();
+        $this->assertCount(2, $entries);
+        // Tamper via reflection
+        $r = new \ReflectionClass($a);
+        $prop = $r->getProperty("entries");
+        $entries = $prop->getValue($a);
+        $entries[0]["data"]["amount"] = 999;
+        $prop->setValue($a, $entries);
+        $this->assertFalse($a->verify(), "tampered chain should fail verify");
+    }
+    public function t03_export_filters(): void
+    {
+        // Scenario T-03
+$a = new Auditor();
+        $a->record(["type" => "auth", "user" => "u1"]);
+        $a->record(["type" => "data", "user" => "u2"]);
+        $a->record(["type" => "auth", "user" => "u3"]);
+        $auth = $a->export(fn($e) => ($e["data"]["type"] ?? "") === "auth");
+        $this->assertCount(2, $auth);
+    }
+    public function t04_prune_old_entries(): void
+    {
+        // Scenario T-04
+$a = new Auditor();
+        $a->record(["v" => 1]);
+        $a->record(["v" => 2]);
+        $deleted = $a->prune(90);
+        $this->assertSame(0, $deleted, "nothing older than 90 days yet");
+        $this->assertCount(2, $a->entries());
+    }
+    public function t05_last_hash_tracks_chain(): void
+    {
+        // Scenario T-05
+$a = new Auditor("secret");
+        $this->assertSame("", $a->lastHash());
+        $a->record(["x" => 1]);
+        $h1 = $a->lastHash();
+        $this->assertNotEmpty($h1);
+        $a->record(["x" => 2]);
+        $h2 = $a->lastHash();
+        $this->assertNotSame($h1, $h2);
+    }
+}
