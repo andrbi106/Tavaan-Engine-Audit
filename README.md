@@ -2,6 +2,8 @@
 
 > **ممیزی** — موتور Audit در فریمورک تَوان
 
+این موتور از کلاس پایهٔ `Engine` (در [Tavaan-Engine-Core](https://github.com/andrbi106/Tavaan-Engine-Core)) ارث می‌برد.
+
 ## مشخصات
 
 | فیلد | مقدار |
@@ -11,65 +13,64 @@
 | عنوان فارسی | ممیزی |
 | نسخه | `0.1.0` |
 | namespace | `Tavaan\Engine\Audit` |
-| نوع | `engine` |
-| Facade | `Audit` (accessor: `audit`) |
+| کلاس موتور | `Tavaan\Engine\Audit\AuditEngine` |
+| Facade | Audit (`audit`) |
 
-## Facadeها
+## کلاس موتور
 
-- `Tavaan\Engine\Audit\Facades\Audit`
+```php
+namespace Tavaan\Engine\Audit;
 
-## کلاس‌های اصلی
+use Tavaan\EngineCore\Engine as BaseEngine;
+use Tavaan\EngineCore\Contracts\EngineManifestInterface;
 
-- `src/Audit.php`
-- `src/AuditEvent.php`
-- `src/AuditObserver.php`
-- `src/Auditor.php`
-- `src/Console/AuditExportCommand.php`
-- `src/Console/AuditPruneCommand.php`
-- `src/Console/AuditShowCommand.php`
-- `src/Console/AuditVerifyCommand.php`
-- `src/Observed.php`
-- `src/VerifyResult.php`
+final class AuditEngine extends BaseEngine
+{
+    public function __construct(EngineManifestInterface $manifest)
+    {
+        parent::__construct($manifest);
+    }
+
+    public function register(ContainerInterface $container): void
+    {
+        parent::register($container);
+        // bindingهای اختصاصی موتور
+    }
+
+    public function boot(): void
+    {
+        parent::boot();
+    }
+}
+```
+
+**فایل:** `src/AuditEngine.php`
+
+## وابستگی‌ها
+
+**موتورهای مورد‌نیاز:** `event`, `log`, `crypt`, `config`
 
 ## Service Providerها
 
 - `Tavaan\Engine\Audit\AuditServiceProvider`
 
-## وابستگی‌ها
-
-**موتورهای مورد‌نیاز:**
-
-- `event`
-- `log`
-- `crypt`
-- `config`
-
 ## جداول دیتابیس
 
 - `tvn_audit_logs`
 
-## پیکربندی
+## سه درگاه ارتباط با سایر موتورها
 
-- فایل پیکربندی: `config/audit.php`
-- کلید: `audit`
+| درگاه | الگو | متدهای convenience |
+|---|---|---|
+| Container | pull-based DI | `make()`, `bound()` |
+| Events | pub/sub | `dispatch()`, `listen()` |
+| EngineBus | point-to-point RPC | `call()`, `offer()` |
 
 ## نصب
 
 ```bash
 git clone https://github.com/andrbi106/Tavaan-Engine-Audit.git
 ```
-
-این موتور بخشی از فریمورک تَوان است و معمولاً به‌صورت مستقیم نصب نمی‌شود،
-بلکه توسط [Tavaan-Core](https://github.com/andrbi106/Tavaan-Core) مدیریت می‌شود.
-
-## روابط با سایر مخازن
-
-| مخزن | نقش |
-|---|---|
-| **`andrbi106/Tavaan-Engine-Audit`** (این مخزن) | موتور Audit |
-| `andrbi106/Tavaan-Engine-Core` | ساختار پایه + درگاه ارتباط موتورها |
-| `andrbi106/Tavaan-Core` | اسکلت اپلیکیشن + همهٔ موتورها |
-| `Derogaramin/Tavaan-Framework` | فریمورک مادر (monorepo) |
 
 ## مجوز
 

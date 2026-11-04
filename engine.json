@@ -10,11 +10,30 @@
       "Tavaan\\Engine\\Audit\\": "src/"
     }
   },
-  "providers": ["Tavaan\\Engine\\Audit\\AuditServiceProvider"],
-  "requires": {"php": ">=8.2", "engines": ["event", "log", "crypt", "config"]},
-  "config": {"file": "config/audit.php", "key": "audit"},
-  "tables": ["tvn_audit_logs"],
+  "providers": [
+    "Tavaan\\Engine\\Audit\\AuditServiceProvider"
+  ],
+  "requires": {
+    "php": ">=8.2",
+    "engines": [
+      "event",
+      "log",
+      "crypt",
+      "config"
+    ]
+  },
+  "config": {
+    "file": "config/audit.php",
+    "key": "audit"
+  },
+  "tables": [
+    "tvn_audit_logs"
+  ],
   "commands": [],
-  "facade": {"name": "Audit", "accessor": "audit"},
-  "docs": "docs/03-engines/audit.md"
+  "facade": {
+    "name": "Audit",
+    "accessor": "audit"
+  },
+  "docs": "docs/03-engines/audit.md",
+  "class": "Tavaan\\Engine\\Audit\\AuditEngine"
 }
